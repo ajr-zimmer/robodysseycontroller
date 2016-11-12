@@ -11,9 +11,40 @@
     tools:context="com.cain.robodysseycontroller.MainActivity">
 
     <TextView
+        android:text="@string/greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/greeting"
-        android:layout_alignParentTop="true"
+        android:id="@+id/textView"
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/maps_spinner"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
+
+    <TextView
+        android:text="@string/selectmapprompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_marginBottom="60dp"
+        android:layout_above="@+id/maps_spinner"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="@string/launchmapbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>

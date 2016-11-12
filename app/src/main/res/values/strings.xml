@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">ROBOdyssey Controller</string>
     <string name="greeting">Hello and Welcome!</string>
+    <string name="selectmapprompt">Please, Select Your Map!</string>
+    <string-array name="maps_array">
+        <item>Safari</item>
+        <item>Room</item>
+        <item>Antarctica</item>
+    </string-array>
+    <string name="launchmapbtn">Let\'s Go!</string>
+
 </resources>
