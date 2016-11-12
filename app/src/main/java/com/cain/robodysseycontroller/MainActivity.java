@@ -1,5 +1,6 @@
 package com.cain.robodysseycontroller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onNothingSelected(AdapterView<?> parent){
         // Another interface callback
+    }
+
+    public void launchTutorial(View view){
+        Intent intent = new Intent(this, TutorialActivity.class);
+        startActivity(intent);
     }
 
 }

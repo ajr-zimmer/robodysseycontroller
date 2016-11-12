@@ -44,7 +44,8 @@
         android:layout_marginBottom="44dp"
         android:id="@+id/button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="launchTutorial" />
 
 
 </RelativeLayout>
