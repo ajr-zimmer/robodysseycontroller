@@ -87,9 +87,9 @@ public class TutorialActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(page);
         updateIndicators(page);
 
-        final int colour1 = ContextCompat.getColor(this, R.color.cyan);
-        final int colour2 = ContextCompat.getColor(this, R.color.orange);
-        final int colour3 = ContextCompat.getColor(this, R.color.green);
+        final int colour1 = ContextCompat.getColor(this, R.color.green);
+        final int colour2 = ContextCompat.getColor(this, R.color.red);
+        final int colour3 = ContextCompat.getColor(this, R.color.cyan);
         final int colour4 = ContextCompat.getColor(this, R.color.deep_purple);
 
         final int[] colourList = new int[]{colour1, colour2, colour3, colour4};
