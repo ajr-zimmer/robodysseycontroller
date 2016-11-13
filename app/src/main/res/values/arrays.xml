@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="maps_array">
+        <item>Safari</item>
+        <item>Room</item>
+        <item>Antarctica</item>
+    </string-array>
+
+</resources>

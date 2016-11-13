@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/cyan"
-    tools:context="com.cain.robodysseycontroller.TutorialActivity">
+    tools:context="com.cain.robodysseycontroller.activities.TutorialActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
@@ -56,7 +56,7 @@
                 android:layout_marginRight="@dimen/activity_margin_half"
                 android:background="@drawable/indicator_unselected" />
 
-            <!-- Other two indicators here-->
+            <!-- Other three indicators here-->
             <ImageView
                 android:id="@+id/tutorial_indicator_1"
                 android:layout_width="8dp"
@@ -67,6 +67,14 @@
 
             <ImageView
                 android:id="@+id/tutorial_indicator_2"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="@dimen/activity_margin_half"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:background="@drawable/indicator_unselected" />
+
+            <ImageView
+                android:id="@+id/tutorial_indicator_"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="8dp"
                 android:layout_height="8dp"

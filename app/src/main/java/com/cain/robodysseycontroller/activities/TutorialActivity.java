@@ -1,8 +1,11 @@
-package com.cain.robodysseycontroller;
+package com.cain.robodysseycontroller.activities;
 
+import android.animation.ArgbEvaluator;
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -21,6 +24,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.cain.robodysseycontroller.R;
+import com.cain.robodysseycontroller.utils.Utils;
 
 public class TutorialActivity extends AppCompatActivity {
 
@@ -76,9 +82,91 @@ public class TutorialActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        mViewPager.setCurrentItem(page);
+        updateIndicators(page);
 
+        final int colour1 = ContextCompat.getColor(this, R.color.cyan);
+        final int colour2 = ContextCompat.getColor(this, R.color.orange);
+        final int colour3 = ContextCompat.getColor(this, R.color.green);
+        final int colour4 = ContextCompat.getColor(this, R.color.deep_purple);
 
+        final int[] colourList = new int[]{colour1, colour2, colour3, colour4};
 
+        final ArgbEvaluator evaluator = new ArgbEvaluator();
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
+                // Update colour of section
+                int colourUpdate = (Integer) evaluator.evaluate(positionOffset, colourList[position],
+                        colourList[position == 3 ? position : position + 1]);
+                mViewPager.setBackgroundColor(colourUpdate);
+            }
+
+            @Override
+            public void onPageSelected(int position){
+                page = position;
+                updateIndicators(page);
+                switch(position){
+                    case 0:
+                        mViewPager.setBackgroundColor(colour1);
+                        break;
+                    case 1:
+                        mViewPager.setBackgroundColor(colour2);
+                        break;
+                    case 2:
+                        mViewPager.setBackgroundColor(colour3);
+                        break;
+                    case 3:
+                        mViewPager.setBackgroundColor(colour4);
+                        break;
+                }
+                // Overlay the Finish button on the last slide
+                mNextBtn.setVisibility(position == 3 ? View.GONE : View.VISIBLE);
+                mFinishBtn.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state){
+
+            }
+        });
+
+        mNextBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                page++;
+                mViewPager.setCurrentItem(page, true);
+            }
+        });
+
+        mSkipBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
+            }
+        });
+
+        mFinishBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                // Not sure if this should be placed before or after "finish()"
+                Intent controlIntent = new Intent(TutorialActivity.this, ControlActivity.class);
+                startActivity(controlIntent);
+                finish();
+                // Update 1st time preferences
+                Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "false");
+                //Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "true"); //debug purposes
+            }
+        });
+    }
+
+    // Matches the grey circles to the page that the user is currently on
+    void updateIndicators(int position){
+        for(int i=0; i<indicators.length; i++){
+            indicators[i].setBackgroundResource(i == position ?
+                    R.drawable.indicator_selected : R.drawable.indicator_unselected);
+        }
     }
 
 
@@ -114,6 +202,11 @@ public class TutorialActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        // Changing images in each section
+        ImageView img;
+        int[] bgs = new int[]{R.drawable.ic_arrow_up_24dp, R.drawable.ic_arrow_down_24dp,
+                R.drawable.ic_arrow_left_24dp, R.drawable.ic_arrow_right_24dp};
+
         public PlaceholderFragment() {
         }
 
@@ -135,6 +228,11 @@ public class TutorialActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_tutorial, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+            // Place images into sections
+            img = (ImageView) rootView.findViewById(R.id.section_img);
+            img.setBackgroundResource(bgs[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
+
             return rootView;
         }
     }
@@ -158,8 +256,8 @@ public class TutorialActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 4 total pages.
+            return 4;
         }
 
         @Override
@@ -171,6 +269,8 @@ public class TutorialActivity extends AppCompatActivity {
                     return "SECTION 2";
                 case 2:
                     return "SECTION 3";
+                case 3:
+                    return "SECTION 4";
             }
             return null;
         }

@@ -1,4 +1,4 @@
-package com.cain.robodysseycontroller;
+package com.cain.robodysseycontroller.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.cain.robodysseycontroller.R;
+import com.cain.robodysseycontroller.utils.Utils;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    String mapSelected;
+
+    public static final String PREF_USER_FIRST_TIME = "user_first_time";
+    boolean isUserFirstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +35,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         // specify interface implementation
         spinner.setOnItemSelectedListener(this);
+
     }
 
     // Implementing methods from OnItemSelectedListener for the spinner
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
-
-        Toast.makeText(this, "Oooo you chose the " + parent.getItemAtPosition(pos).toString() + " map", Toast.LENGTH_LONG).show();
+        mapSelected = parent.getItemAtPosition(pos).toString();
 
     }
 
@@ -43,8 +51,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void launchTutorial(View view){
-        Intent intent = new Intent(this, TutorialActivity.class);
-        startActivity(intent);
+        Toast.makeText(this, "Oooo you chose the " + mapSelected + " map", Toast.LENGTH_LONG).show();
+
+        Intent tutIntent = new Intent(this, TutorialActivity.class);
+        Intent controlIntent = new Intent(this, ControlActivity.class);
+        isUserFirstTime = Boolean.valueOf(Utils.readSharedSetting(MainActivity.this, PREF_USER_FIRST_TIME, "true"));
+        // This skips the tutorial if the user has already done it, this feature can be taken out.
+        //startActivity(tutIntent); // debug purposes
+        if(isUserFirstTime){
+            startActivity(tutIntent);
+        } else {
+            startActivity(controlIntent);
+        }
     }
 
 }
