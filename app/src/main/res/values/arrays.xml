@@ -6,4 +6,18 @@
         <item>Antarctica</item>
     </string-array>
 
+    <string-array name="tutbody_array">
+        <item>To move forward, swipe up!</item>
+        <item>To stop, swipe down!</item>
+        <item>To turn to the left, drag from left to right</item>
+        <item>To turn to the right, drag from right to left</item>
+    </string-array>
+
+    <string-array name="tuttitle_array">
+        <item>Moving forward</item>
+        <item>Stop! Stop! Stop!</item>
+        <item>If you look to your left...</item>
+        <item>Oh, look at that right over there!</item>
+    </string-array>
+
 </resources>

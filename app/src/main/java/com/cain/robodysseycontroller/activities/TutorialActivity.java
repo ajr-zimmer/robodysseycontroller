@@ -2,6 +2,7 @@ package com.cain.robodysseycontroller.activities;
 
 import android.animation.ArgbEvaluator;
 import android.content.Intent;
+import android.media.Image;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -47,7 +48,7 @@ public class TutorialActivity extends AppCompatActivity {
     ImageButton mNextBtn;
     Button mSkipBtn, mFinishBtn;
 
-    ImageView zero, one, two;
+    ImageView zero, one, two, three;
     ImageView[] indicators;
 
     int lastLeftValue = 0;
@@ -73,10 +74,11 @@ public class TutorialActivity extends AppCompatActivity {
         zero = (ImageView) findViewById(R.id.tutorial_indicator_0);
         one = (ImageView) findViewById(R.id.tutorial_indicator_1);
         two = (ImageView) findViewById(R.id.tutorial_indicator_2);
+        three = (ImageView) findViewById(R.id.tutorial_indicator_3);
 
         mCoordinator = (CoordinatorLayout) findViewById(R.id.main_content);
 
-        indicators = new ImageView[]{zero, one, two};
+        indicators = new ImageView[]{zero, one, two, three};
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -143,6 +145,9 @@ public class TutorialActivity extends AppCompatActivity {
         mSkipBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                // Not sure if this should be placed before or after "finish()"
+                Intent controlIntent = new Intent(TutorialActivity.this, ControlActivity.class);
+                startActivity(controlIntent);
                 finish();
             }
         });
@@ -202,10 +207,10 @@ public class TutorialActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        // Changing images in each section
+        // Images in each section
         ImageView img;
         int[] bgs = new int[]{R.drawable.ic_arrow_up_24dp, R.drawable.ic_arrow_down_24dp,
-                R.drawable.ic_arrow_left_24dp, R.drawable.ic_arrow_right_24dp};
+                R.drawable.ic_arrow_right_24dp, R.drawable.ic_arrow_left_24dp};
 
         public PlaceholderFragment() {
         }
@@ -223,15 +228,26 @@ public class TutorialActivity extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_tutorial, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
+            // Append direction title
+            String[] titles = getResources().getStringArray(R.array.tuttitle_array);
+            textView.append(titles[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
+
+
             // Place images into sections
             img = (ImageView) rootView.findViewById(R.id.section_img);
             img.setBackgroundResource(bgs[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
+
+            // Text bodies in each section
+            TextView txtHowto;
+            String[] bodies = getResources().getStringArray(R.array.tutbody_array);
+            // Changes instructions based on section
+            txtHowto = (TextView) rootView.findViewById(R.id.section_body);
+            txtHowto.setText(bodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
             return rootView;
         }
