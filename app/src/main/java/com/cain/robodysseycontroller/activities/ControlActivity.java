@@ -11,7 +11,10 @@ import android.view.View;
 import com.cain.robodysseycontroller.R;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class ControlActivity extends AppCompatActivity implements
         GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
@@ -19,7 +22,11 @@ public class ControlActivity extends AppCompatActivity implements
     private GestureDetectorCompat mDetector;
     private boolean tourMode;
     private Socket clientSocket;
-    private DataOutputStream out;
+    private DataOutputStream dataOut;
+
+    private static final int SERVERPORT = 8888;
+    //private static final String SERVER_IP = "10.0.2.2";
+    private static final String SERVER_IP = "192.168.1.66";
 
     // Creates activity and turns it into immersive/manual mode
     @Override
@@ -38,18 +45,31 @@ public class ControlActivity extends AppCompatActivity implements
         // Set the gesture detector as the double tap
         // listener.
         mDetector.setOnDoubleTapListener(this);
-        // Open a clientSocket to communicate with server
-        try{
-            clientSocket = new Socket("10.0.2.2", 1995);
-            this.out = new DataOutputStream(clientSocket.getOutputStream());
-        }catch (Exception e){
-            e.printStackTrace();
+
+        new Thread(new ClientThread()).start();
+    }
+
+    class ClientThread implements Runnable {
+
+        @Override
+        public void run() {
+            // Open a clientSocket to communicate with server
+            try {
+                InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+                clientSocket = new Socket(serverAddr, SERVERPORT);
+                dataOut = new DataOutputStream(clientSocket.getOutputStream());
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 
     public void SendTransmission(String command){
         try{
-            out.writeBytes(command + '\n');
+            //dataOut.writeBytes(command + '\n');
+            dataOut.writeUTF(command + '\n');
         }catch (Exception e){
             e.printStackTrace();
         }
