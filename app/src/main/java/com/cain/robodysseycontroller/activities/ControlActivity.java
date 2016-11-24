@@ -25,8 +25,7 @@ public class ControlActivity extends AppCompatActivity implements
     private DataOutputStream dataOut;
 
     private static final int SERVERPORT = 8888;
-    //private static final String SERVER_IP = "10.0.2.2";
-    private static final String SERVER_IP = "192.168.1.66";
+    private static final String SERVER_IP = "10.0.2.2";
 
     // Creates activity and turns it into immersive/manual mode
     @Override
@@ -68,8 +67,8 @@ public class ControlActivity extends AppCompatActivity implements
 
     public void SendTransmission(String command){
         try{
-            //dataOut.writeBytes(command + '\n');
-            dataOut.writeUTF(command + '\n');
+            dataOut.writeBytes(command + '\n');
+            //dataOut.writeUTF(command + '\n'); // right and up does not work with 'r' and 'u' for whatever reason
         }catch (Exception e){
             e.printStackTrace();
         }
