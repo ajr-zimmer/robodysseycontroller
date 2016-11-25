@@ -23,7 +23,14 @@
             android:name=".activities.TutorialActivity"
             android:label="@string/title_activity_tutorial"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.ControlActivity"></activity>
+        <activity
+            android:name=".activities.ControlActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
