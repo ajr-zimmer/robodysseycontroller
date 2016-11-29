@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.Switch;
 
 import com.cain.robodysseycontroller.R;
 
@@ -25,10 +28,9 @@ public class ControlActivity extends AppCompatActivity implements
     private DataOutputStream dataOut;
 
     private static final int SERVERPORT = 8888;
-    private static final String SERVER_IP = "10.0.2.2";
-    private static final String VIDEOFEED = "http://192.168.1.65:8080/video";
-            //"http://www.ebookfrenzy.com/android_book/movie.mp4";
-            //
+    private static final String SERVER_IP = "10.13.153.41";
+    private static final String VIDEOFEED = "http://10.13.147.211:8080/video";
+    //
 
 
     // Creates activity and turns it into immersive/manual mode
@@ -48,6 +50,25 @@ public class ControlActivity extends AppCompatActivity implements
         // Set the gesture detector as the double tap
         // listener.
         mDetector.setOnDoubleTapListener(this);
+
+        // explore switch
+        final ImageView exploreImageOverlay = (ImageView) findViewById(R.id.manualOverlay);
+        Switch exploreSwitch = (Switch) findViewById(R.id.exSwitch);
+        exploreSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked
+                        ) {
+                    exploreImageOverlay.setVisibility(View.VISIBLE);
+                    Log.d("Mode Switched: ", "Manual Mode");
+                    SendTransmission("manual");
+                } else {
+                    exploreImageOverlay.setVisibility(View.INVISIBLE);
+                    Log.d("Mode Switched: ", "Tour Mode");
+                    SendTransmission("tour");
+                }
+                tourMode = !tourMode;
+            }
+        });
 
         new Thread(new ClientThread()).start();
 
@@ -151,14 +172,6 @@ public class ControlActivity extends AppCompatActivity implements
     // see name
     @Override
     public boolean onDoubleTap(MotionEvent event) {
-        if (tourMode) {
-            Log.d("Mode Switched: ", "Manual Mode");
-            SendTransmission("manual");
-        } else {
-            Log.d("Mode Switched: ", "Tour Mode");
-            SendTransmission("tour");
-        }
-        tourMode = !tourMode;
         return true;
     }
 

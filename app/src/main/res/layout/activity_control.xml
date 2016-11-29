@@ -15,47 +15,23 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="center" />
 
-    <TextView
-        android:text="MEMES"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView3" />
-
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_arrow_left_24dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="58dp"
-        android:id="@+id/imageView3" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/overlay"
+        android:contentDescription="@string/app_name"
+        android:visibility="gone"
+        android:id="@+id/manualOverlay"/>
 
-    <ImageView
+    <Switch
+        android:text="Explore Mode"
+        android:textColor="@color/lime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_arrow_right_24dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="57dp"
-        android:id="@+id/imageView4" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_arrow_up_24dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="94dp"
-        android:id="@+id/imageView5" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_arrow_down_24dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="95dp"
-        android:id="@+id/imageView6" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginTop="13dp"
+        android:checked="false"
+        android:id="@+id/exSwitch" />
 </RelativeLayout>
