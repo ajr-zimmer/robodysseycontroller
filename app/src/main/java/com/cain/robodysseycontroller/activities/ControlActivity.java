@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 
 import com.cain.robodysseycontroller.R;
+import com.cain.robodysseycontroller.utils.Utils;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -27,8 +28,9 @@ public class ControlActivity extends AppCompatActivity implements
     private Socket clientSocket;
     private DataOutputStream dataOut;
 
+
     private static final int SERVERPORT = 8888;
-    private static final String SERVER_IP = "10.13.153.41";
+    private static String SERVER_IP = "127.0.0.1";
     private static final String VIDEOFEED = "http://10.13.147.211:8080/video";
     //
 
@@ -38,6 +40,9 @@ public class ControlActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+        // Load in laptop IP from user settings
+        SERVER_IP = Utils.readSharedSetting(ControlActivity.this, MainActivity.LAPTOP_IP, "127.0.0.1");
+
         tourMode = true;
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE

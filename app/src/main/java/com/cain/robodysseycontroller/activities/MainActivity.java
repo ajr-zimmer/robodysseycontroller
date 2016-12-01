@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -15,8 +16,10 @@ import com.cain.robodysseycontroller.utils.Utils;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String mapSelected;
+    EditText inputIP;
 
     public static final String PREF_USER_FIRST_TIME = "user_first_time";
+    public static final String LAPTOP_IP = "laptop_ip";
     boolean isUserFirstTime;
 
     @Override
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // specify interface implementation
         spinner.setOnItemSelectedListener(this);
 
+        inputIP = (EditText) findViewById(R.id.inputIP);
+
     }
 
     // Implementing methods from OnItemSelectedListener for the spinner
@@ -51,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void launchTutorial(View view){
+        Utils.saveSharedSetting(MainActivity.this, LAPTOP_IP, inputIP.getText().toString());
+
         Toast.makeText(this, "Oooo you chose the " + mapSelected + " map", Toast.LENGTH_LONG).show();
 
         Intent tutIntent = new Intent(this, TutorialActivity.class);

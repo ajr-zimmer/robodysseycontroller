@@ -160,7 +160,7 @@ public class TutorialActivity extends AppCompatActivity {
                 startActivity(controlIntent);
                 finish();
                 // Update 1st time preferences
-                Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "false");
+                //Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "false");
                 //Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "true"); //debug purposes
             }
         });
