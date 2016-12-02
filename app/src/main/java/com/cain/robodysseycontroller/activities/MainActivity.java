@@ -17,9 +17,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     String mapSelected;
     EditText inputIP;
+    EditText cameraIP;
 
     public static final String PREF_USER_FIRST_TIME = "user_first_time";
     public static final String LAPTOP_IP = "laptop_ip";
+    public static final String CAMERA_IP = "camera_ip";
     boolean isUserFirstTime;
 
     @Override
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(this);
 
         inputIP = (EditText) findViewById(R.id.inputIP);
-
+        cameraIP = (EditText) findViewById(R.id.cameraIP);
     }
 
     // Implementing methods from OnItemSelectedListener for the spinner
@@ -48,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
         mapSelected = parent.getItemAtPosition(pos).toString();
-
     }
 
     public void onNothingSelected(AdapterView<?> parent){
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void launchTutorial(View view){
         Utils.saveSharedSetting(MainActivity.this, LAPTOP_IP, inputIP.getText().toString());
+        Utils.saveSharedSetting(MainActivity.this, CAMERA_IP, "http://"+ cameraIP.getText().toString() +":8080/video");
 
         Toast.makeText(this, "Oooo you chose the " + mapSelected + " map", Toast.LENGTH_LONG).show();
 

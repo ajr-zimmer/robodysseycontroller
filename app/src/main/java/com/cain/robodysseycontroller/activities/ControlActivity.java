@@ -31,7 +31,7 @@ public class ControlActivity extends AppCompatActivity implements
 
     private static final int SERVERPORT = 8888;
     private static String SERVER_IP = "127.0.0.1";
-    private static final String VIDEOFEED = "http://10.13.147.211:8080/video";
+    private static String VIDEOFEED = "http://127.0.0.1:8080/video";
     //
 
 
@@ -42,6 +42,7 @@ public class ControlActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_control);
         // Load in laptop IP from user settings
         SERVER_IP = Utils.readSharedSetting(ControlActivity.this, MainActivity.LAPTOP_IP, "127.0.0.1");
+        VIDEOFEED = Utils.readSharedSetting(ControlActivity.this, MainActivity.CAMERA_IP, "http://127.0.0.1:8080/video");
 
         tourMode = true;
         getWindow().getDecorView().setSystemUiVisibility(

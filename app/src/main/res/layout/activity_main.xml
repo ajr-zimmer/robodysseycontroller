@@ -11,16 +11,6 @@
     android:background="@color/light_blue"
     tools:context="com.cain.robodysseycontroller.activities.MainActivity">
 
-    <Button
-        android:text="@string/launchmapbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="launchTutorial" />
-
     <TextView
         android:text="@string/greeting"
         android:layout_width="wrap_content"
@@ -48,6 +38,15 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:text="@string/launchmapbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:onClick="launchTutorial"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
     <EditText
         android:id="@+id/inputIP"
         android:layout_width="wrap_content"
@@ -57,9 +56,9 @@
         android:hint="IP please :)"
         android:textAlignment="center"
         android:ems="10"
-        android:layout_marginBottom="35dp"
-        android:layout_above="@+id/button"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp" />
 
     <TextView
         android:text="Enter Robot Computer IP"
@@ -67,8 +66,28 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
         android:layout_above="@+id/inputIP"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginBottom="11dp" />
+        android:layout_alignStart="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/cameraIP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:background="#FFF"
+        android:hint="IP please :)"
+        android:textAlignment="center"
+        android:ems="10"
+        android:layout_above="@+id/button"
+        android:layout_alignStart="@+id/inputIP"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:text="Enter Front-Facing Camera IP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_above="@+id/cameraIP"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
