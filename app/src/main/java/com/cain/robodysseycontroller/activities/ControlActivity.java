@@ -1,5 +1,8 @@
 package com.cain.robodysseycontroller.activities;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Vibrator;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,12 +13,16 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.cain.robodysseycontroller.R;
 import com.cain.robodysseycontroller.utils.Utils;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -32,7 +39,7 @@ public class ControlActivity extends AppCompatActivity implements
     private static final int SERVERPORT = 8888;
     private static String SERVER_IP = "127.0.0.1";
     private static String VIDEOFEED = "http://127.0.0.1:8080/video";
-    //
+    private static ControlActivity parent;
 
 
     // Creates activity and turns it into immersive/manual mode
@@ -40,6 +47,7 @@ public class ControlActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+
         // Load in laptop IP from user settings
         SERVER_IP = Utils.readSharedSetting(ControlActivity.this, MainActivity.LAPTOP_IP, "127.0.0.1");
         VIDEOFEED = Utils.readSharedSetting(ControlActivity.this, MainActivity.CAMERA_IP, "http://127.0.0.1:8080/video");
@@ -75,12 +83,43 @@ public class ControlActivity extends AppCompatActivity implements
                 tourMode = !tourMode;
             }
         });
-
+        parent = this;
         new Thread(new ClientThread()).start();
-
-        // code for video feed here
+        while (clientSocket == null){ }
         new Thread(new MjpegMaker()).start();
+        new Thread(new CollusionChecker(parent)).start();
 
+
+    }
+
+    class CollusionChecker implements Runnable{
+        ControlActivity parent;
+        public CollusionChecker(ControlActivity parent) {
+            this.parent = parent;
+        }
+
+        public void run(){
+            BufferedReader inBuff;
+            String input;
+            try {
+                inBuff = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                while (true){
+                    input = inBuff.readLine();
+                    if (!input.equals("??")){
+                        parent.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ControlActivity.this, "There is something in the way!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        v.vibrate(500);
+                    }
+                }
+            } catch (IOException e) {
+                //
+            }
+        }
     }
 
     class MjpegMaker implements Runnable {
@@ -111,6 +150,7 @@ public class ControlActivity extends AppCompatActivity implements
     public void SendTransmission(String command) {
         try {
             dataOut.writeBytes(command + '\n');
+            dataOut.flush();
             //dataOut.writeUTF(command + '\n'); // right and up does not work with 'r' and 'u' for whatever reason
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,8 +171,7 @@ public class ControlActivity extends AppCompatActivity implements
 
     // handles swipe gestures
     @Override
-    public boolean onFling(MotionEvent event1, MotionEvent event2,
-                           float velocityX, float velocityY) {
+    public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
         if (tourMode) {
             Log.d("Sound: ", "in Tour Mode, double tap to engage controls");
         } else {
@@ -160,8 +199,7 @@ public class ControlActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-                            float distanceY) {
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         return true;
     }
 
@@ -174,8 +212,6 @@ public class ControlActivity extends AppCompatActivity implements
         return true;
     }
 
-
-    // see name
     @Override
     public boolean onDoubleTap(MotionEvent event) {
         return true;
