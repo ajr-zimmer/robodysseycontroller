@@ -114,6 +114,11 @@ public class ControlActivity extends AppCompatActivity implements
                         });
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                         v.vibrate(500);
+                        try {
+                            Thread.sleep(4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             } catch (IOException e) {
