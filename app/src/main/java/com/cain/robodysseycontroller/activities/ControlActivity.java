@@ -40,6 +40,7 @@ public class ControlActivity extends AppCompatActivity implements
     private static String SERVER_IP = "127.0.0.1";
     private static String VIDEOFEED = "http://127.0.0.1:8080/video";
     private static ControlActivity parent;
+    Switch exploreSwitch;
 
 
     // Creates activity and turns it into immersive/manual mode
@@ -67,7 +68,7 @@ public class ControlActivity extends AppCompatActivity implements
 
         // explore switch
         final ImageView exploreImageOverlay = (ImageView) findViewById(R.id.manualOverlay);
-        Switch exploreSwitch = (Switch) findViewById(R.id.exSwitch);
+        exploreSwitch = (Switch) findViewById(R.id.exSwitch);
         exploreSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked
@@ -105,7 +106,7 @@ public class ControlActivity extends AppCompatActivity implements
                 inBuff = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 while (true){
                     input = inBuff.readLine();
-                    if (!input.equals("??")){
+                    if (input.equals("blocked")){
                         parent.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -119,6 +120,24 @@ public class ControlActivity extends AppCompatActivity implements
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                    }
+                    else if (input.equals("sending")){
+                        parent.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                parent.exploreSwitch.setVisibility(View.INVISIBLE);
+                                Toast.makeText(ControlActivity.this, "Taking you back to the path...", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    else if (input.equals("arrived")){
+                        parent.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                parent.exploreSwitch.setVisibility(View.VISIBLE);
+                                Toast.makeText(ControlActivity.this, "You are back on track!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             } catch (IOException e) {
